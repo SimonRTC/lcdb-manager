@@ -2,10 +2,9 @@
     "website": {
       "host": "localhost",
       "charset": "utf8",
-      "dbname": "sandbox",
-      "user": "root",
-      "password": null,
-      "_comment": " WARN : \"Options\" management is currently not taken into PDO",
+      "dbname": "lcdb-manager",
+      "user": "lcdbmanager",
+      "password": "lbbVcfNGyoXZzqoAPDLyL5PKhG1wt2KhxwTk8UY1rO2VyUsG",
       "options": null
     }
 }
