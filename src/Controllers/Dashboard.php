@@ -25,14 +25,8 @@ class Dashboard {
     }
 
     private function GetLicence(): string {
-        $lien = 'https://raw.githubusercontent.com/SimonOriginal/lcdb-manager/master/LICENSE';
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $lien);
-        curl_setopt($curl, CURLOPT_COOKIESESSION, true);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $return = curl_exec($curl);
-        curl_close($curl);
-        return $return;
+        $licence = file_get_contents(realpath(__DIR__ . '/../..') . '/LICENCE');
+        return $licence;
     }
 
 }
