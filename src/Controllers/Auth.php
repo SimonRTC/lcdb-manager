@@ -20,15 +20,15 @@ class Auth extends \App\Core\Auth {
     public function index($method) {
         $URL = $this->views->ParseUrl();
 
-        if ($URL[0] == 'deconnexion') { $this->CurrentSessionLogout(); }
+        if (isset($URL[0]) && $URL[0] == 'deconnexion') { $this->CurrentSessionLogout(); }
 
         if (empty($this->views->ClientAuth)) {
 
-            if ($URL[0] == 'connexion') { // --> Dont forget to change this value if you edit routes.json
+            if (isset($URL[0]) && $URL[0] == 'connexion') { // --> Dont forget to change this value if you edit routes.json
                 ($method == 'POST'? $this->login(): null);
                 $view = function($view) { return $this->views->load('Auth/Login'); };
                 
-            } elseif ($URL[0] == 'register') {  // --> Dont forget to change this value if you edit routes.json
+            } elseif (isset($URL[0]) && $URL[0] == 'register') {  // --> Dont forget to change this value if you edit routes.json
                 ($method == 'POST'? $this->register(): null);
                 $view = function($view) { return $this->views->load('Auth/Register'); };
             }
