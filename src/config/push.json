@@ -1,0 +1,15 @@
+{
+    "USER_LOGIN_ERROR": "Impossible de se connecter à votre compte. Vérifiez vos identifiants puis réessayez.",
+    "REGISTER_FAILED": "Veuillez entrer tous les champs requis pour l'inscription.",
+    "ALREADY_TAKEN": "Ce nom d'utilisateur ou cet email est déjà enregistré.",
+    "UPDATE_STUDENT_ERROR": "Une erreur s'est produite lors de la modification du profil. Merci de ressayer ultérieurement.",
+    "UPDATE_STUDENT_SUCCES": "Mise à jour du profil effectuer avec succès.",
+    "CREATE_STUDENT_ERROR": "Une erreur s'est produite lors de la création du profil. Merci de ressayer ultérieurement.",
+    "CREATE_STUDENT_SUCCES": "Le profil a correctement été ajouter la base de données.",
+    "CREATE_CLASSROOM_ERROR": "Une erreur s'est produite lors de la création de la classe. Merci de ressayer ultérieurement.",
+    "CREATE_CLASSROOM_SUCCESS": "La classe a correctement été ajouter la base de données.",
+    "CREATE_OPTION_ERROR": "Une erreur s'est produite lors de la création de l'option'. Merci de ressayer ultérieurement.",
+    "CREATE_OPTION_SUCCESS": "L'option a correctement été ajouter la base de données.",
+    "CREATE_DIET_ERROR": "Une erreur s'est produite lors de la création du régime alimentaire. Merci de ressayer ultérieurement.",
+    "CREATE_DIET_SUCCESS": "Le régime alimentaire a correctement été ajouter la base de données."
+}
