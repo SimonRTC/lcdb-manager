@@ -20,8 +20,19 @@ class Dashboard {
     public function index() {
         $dashboard = (!empty($this->views->GetAuth()? true: false));
         $this->views->header($dashboard);
-        $this->views->load(($dashboard? 'dashboard': 'welcome'), [ 'students' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); }, 'classrooms' => function($classroom = null) { return $this->Classroom->GetClassroomsNumber($classroom); } ]);
+        $this->views->load(($dashboard? 'dashboard': 'welcome'), (!$dashboard? [ 'licence' => $this->GetLicence() ]: [ 'students' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); }, 'classrooms' => function($classroom = null) { return $this->Classroom->GetClassroomsNumber($classroom); } ]));
         $this->views->footer($dashboard);
+    }
+
+    private function GetLicence(): string {
+        $lien = 'https://raw.githubusercontent.com/SimonOriginal/lcdb-manager/master/LICENSE';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $lien);
+        curl_setopt($curl, CURLOPT_COOKIESESSION, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $return = curl_exec($curl);
+        curl_close($curl);
+        return $return;
     }
 
 }

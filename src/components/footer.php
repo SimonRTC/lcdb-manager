@@ -5,7 +5,7 @@
     <?php } ?>
 
     <footer class="blog-footer">
-        <p>&copy; <a href="https://choosealicense.com/licenses/gpl-3.0/" target="_BLANK">GPL-3</a> - Lycée Collège de Bretagne</p>
+        <p>&copy; GNU General Public License v3.0 - <a href="https://github.com/SimonOriginal/lcdb-manager/blob/master/LICENSE" target="_BLANK">lcdb-manager</a> - Lycée Collège de Bretagne</p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

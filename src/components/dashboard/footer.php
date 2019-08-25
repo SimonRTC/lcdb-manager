@@ -1,22 +1,19 @@
 
                 <footer class="sticky-footer">
                     <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>&copy; <a href="https://choosealicense.com/licenses/gpl-3.0/" target="_BLANK">GPL-3</a> - Lycée Collège de Bretagne</span>
-                    </div>
+                        <div class="copyright text-center my-auto">
+                            <span>&copy; GNU General Public License v3.0 - <a href="https://github.com/SimonOriginal/lcdb-manager/blob/master/LICENSE" target="_BLANK">lcdb-manager</a> - Lycée Collège de Bretagne</span>
+                        </div>
                     </div>
                 </footer>
-
+                
             </div>
-
         </div>
 
-        <!-- Scroll to Top Button-->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
 
-        <!-- Logout Modal-->
         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
