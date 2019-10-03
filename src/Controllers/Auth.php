@@ -67,7 +67,7 @@ class Auth extends \App\Core\Auth {
                 $this->SetAuthUser($user);
                 header('Location: /');
             } else {
-                $this->views->SetPushMessage('USER_LOGIN_ERROR');
+                $this->views->SetPushMessage('REGISTER_FAILED');
             }
         } else {
             $this->views->SetPushMessage($cb);
