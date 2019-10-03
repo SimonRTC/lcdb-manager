@@ -36,10 +36,17 @@ class OptionsManager {
         return $randomString;
     }
 
+    public function RemoveOption(string $id, bool $display = false): bool {
+        $db = $this->db;
+        $request = $db()->prepare("UPDATE `options` SET `display` = :display WHERE `id` = :id");
+        $result = $request->execute([ 'display' => ($display? 1: 0), 'id' => $id ]);
+        return ($result? true: false);
+    }
+
     public function CreateOption(array $option) {
         $name       = htmlspecialchars($option['option']);
         $db         = $this->db;
-        $request    = $db()->prepare('INSERT INTO `options` (`id`, `name`, `creation_date`, `own`) VALUES (:id, :name, :creation_date, :own)');
+        $request    = $db()->prepare('INSERT INTO `options` (`id`, `name`, `creation_date`, `own`, `display`) VALUES (:id, :name, :creation_date, :own, 1)');
         $request    = $request->execute([
             'id'            => $this->RequestOptionsId(false),
             'name'          => $option['option'],

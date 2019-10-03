@@ -13,7 +13,6 @@
                                         <input type="text" class="form-control" id="option" name="option" required="required"/>
                                     </div>
                                 </div>
-                                <div class="alert alert-warning mt-3 mb-3 col-6"><b>Note</b>: Une fois cette opération réalisée, il sera impossible de supprimer le contenu ajouter.<br /><u>Cette restriction sera supprimée lorsque l'ensemble des bugs qu'elle génère seront résolue.</u></div>
                                 <hr class="mt-4 mb-3" />
                                 <?php if (!empty($G['Pusher']->Notification)) { ?>
                                     <div clas="row align-items-cente mt-4 mb-4">
@@ -30,6 +29,17 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+
+                <div class="card mb-3">
+                    <div class="card-header"><i class="fas fa-toolbox"></i> Gestion des options</div>
+                        <div class="card-body">
+                            <ul>
+                                <?php foreach ($data['options']() as $option) { if ($option['display']) { ?>
+                                    <li class="mt-3"><?= $option['name'] ?> - (<small>Ajouter le <b><?= (new \DateTime($option['creation_date']))->format('d/m/Y') ?></b> à <b><?= (new \DateTime($option['creation_date']))->format('H:i') ?></b></small>) - <a href="/ajouter-option/<?= $option['id'] ?>/" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a></li>
+                                <?php } } ?>
+                            </ul>
                         </div>
                     </div>
                 </div>

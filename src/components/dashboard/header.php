@@ -92,8 +92,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/ajouter-option/">
-                            <i class="fas fa-plus"></i>
-                            <span class="ml-2">Ajouter une option</span>
+                            <i class="fas fa-toolbox"></i>
+                            <span class="ml-2">Gestion des options</span>
                         </a>
                     </li>
                     <li class="nav-item">

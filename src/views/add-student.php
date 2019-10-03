@@ -49,13 +49,13 @@
                                 <div class="row">
                                     <div class="col-4">
                                         <label for="options">Options:</label>
-                                        <?php foreach ($data['options'] as $option) { ?>
+                                        <?php foreach ($data['options'] as $option) { if ($option['display']) { ?>
                                             <div class="col-8">
                                                 <ul>
                                                     <li><b><?= $option['name'] ?></b> - Participe: <input type="checkbox" id="<?= $option['id'] ?>" name="<?= $option['id'] ?>" value="true"/></li>
                                                 </ul>
                                             </div>
-                                        <?php } ?>
+                                        <?php } } ?>
                                     </div>
                                 </div>
                                 <hr class="mt-4 mb-3" />

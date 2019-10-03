@@ -44,9 +44,9 @@
                                         <p><?= $student['profile']['firstname'] ?> <?= $student['profile']['lastname'] ?><br /><?= $data['diets']($student['profile']['diet'])[0]['name'] ?></p>
                                         <hr />
                                         <p>
-                                            <?php foreach ($data['option'] as $option) { if (!empty($student['profile']['options'])) { foreach ($student['profile']['options'] as $my) { if ($option['id'] == $my['id'] && $my['active']) { ?>
+                                            <?php foreach ($data['option'] as $option) { if ($option['display']) { if (!empty($student['profile']['options'])) { foreach ($student['profile']['options'] as $my) { if ($option['id'] == $my['id'] && $my['active']) { ?>
                                                 - <?= $option['name'] ?><br />
-                                            <?php  } } } else { echo '<span class="badge badge-secondary">Aucune options</span>'; break; } } ?>    
+                                            <?php  } } } else { echo '<span class="badge badge-secondary">Aucune options</span>'; break; } } } ?>    
                                         </p>           
                                     </div>
                                 <?php } ?>

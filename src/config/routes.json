@@ -79,6 +79,13 @@
         "injection": "add-option"
     },
     {
+        "type": "GET",
+        "pattern": "/ajouter-option/(.*)",
+        "controller": "Options",
+        "auth": true,
+        "injection": "remove-option"
+    },
+    {
         "type": "GET|POST",
         "pattern": "/ajouter-regime-alimentaire",
         "controller": "Options",
