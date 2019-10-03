@@ -3,4 +3,5 @@
 /public/examples/
 /public/assets/scss/
 /src/config/databases.json
+/src/config/databases.json.production
 raspberrypi.txt
