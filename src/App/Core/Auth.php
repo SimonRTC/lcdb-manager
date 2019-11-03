@@ -2,6 +2,9 @@
 
 namespace App\Core;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 class Auth {
 
     public $ClientAuth;
@@ -16,51 +19,34 @@ class Auth {
     }
 
     private function GetCurrentClientIp():string {
-        $ipaddress = '';
-        if (getenv('HTTP_CLIENT_IP'))
-            $ipaddress = getenv('HTTP_CLIENT_IP');
-        else if(getenv('HTTP_X_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-        else if(getenv('HTTP_X_FORWARDED'))
-            $ipaddress = getenv('HTTP_X_FORWARDED');
-        else if(getenv('HTTP_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_FORWARDED_FOR');
-        else if(getenv('HTTP_FORWARDED'))
-            $ipaddress = getenv('HTTP_FORWARDED');
-        else if(getenv('REMOTE_ADDR'))
-            $ipaddress = getenv('REMOTE_ADDR');
-        else
-            $ipaddress = 'UNKNOWN';
-         
-        return $ipaddress;
+        $request = Request::createFromGlobals();
+        return $request->getClientIp();
     }
 
-    private function ThisFieldIsThisUsed(string $table, string $fields, array $datas): array { /* ! WARN ! : Need optimization for reduce database request */
+    private function ThisFieldIsThisUsed(string $table, string $fields, array $datas): ?array {
         $callback   = [];
         $fields     = explode('|', $fields);
         $db         = $this->db;
-        foreach ($fields as $i=>$field) {
-            $request        = $db()->query("SELECT * FROM `$table` WHERE `$field` LIKE '$datas[$i]'");
-            $responses      = $request->fetchAll();
-            foreach ($responses as $response) {
-                if ($response) {
-                    $callback = array_merge($callback, [ "$i" => $datas[$i] ]);
-                } else {
-                    $callback = array_merge($callback, [ "$i" => false ]);
+        $request    = $db()->query("SELECT * FROM `$table`");
+        $responses  = $request->fetchAll();
+        foreach ($responses as $response) {
+            foreach ($fields as $i=>$field) {
+                if (isset($response[$field]) && !empty($response[$field]) && $response[$field] == $datas[$i]) {
+                    $callback = array_merge($callback, [ "$field" => true ]);
                 }
             }
         }
         return $callback;
     }
-
-    private function DeleteSession(int $session): bool {
+    
+    public function DeleteSession(int $session): bool {
         $db         = $this->db;
         $request    = $db()->prepare('DELETE FROM `auth_sessions` WHERE `session_id` =  :session');
         $request    ->execute([ 'session' => $session ]);
         return (!$request? false: true);
     }
 
-    private function GetSessions(int $session = null, bool $lite = true): array {
+    public function GetSessions(int $session = null, bool $lite = true): array {
         $db         = $this->db;
         $sessions   = $db()->query('SELECT * FROM `auth_sessions`');
         $browse     = true;
@@ -155,27 +141,36 @@ class Auth {
 
         if ($username && $password || $username && !$pswd || $id) {
             $db         = $this->db;
-            $clients    = $db()->query('SELECT * FROM `auth_clients`');
-            while ($data = $clients->fetch()) {
-                if ($data['username'] == $username || $data['email'] == $username || $data['id'] == $id) {
-                    $user = $data;
-                    break;
+            $clients    = $db()->prepare('SELECT * FROM `auth_clients` WHERE ' . (!$id? 'username = :username OR email = :email': 'id = :id'));
+            $clients->execute((!$id? [ 'username' => $username, 'email' => $username ]: [ 'id' => $id ]));
+            if ($clients) {
+                while ($data = $clients->fetch()) {
+                    if ($data['username'] == $username || $data['email'] == $username || $data['id'] == $id) {
+                        $user = $data;
+                        break;
+                    }
                 }
-            }
-            if (!empty($user) && $user) {
-                if ($data['password'] == $password || $pswd == false) {
-                    $callback = $user;
-                }   
+                if (!empty($user) && $user) {
+                    if ($data['password'] == $password || $pswd == false) {
+                        $callback = $user;
+                    }   
+                }
+            } else {
+                $callback = false;
             }
         }
-
         return (!$callback ? []: $callback);
     }
 
-    public function SetAuthUser(array $user): array {
-        $session = $this->CreateSessionId();
-        $this->AddSessionToDatabase($session, $user);
-        $this->AddSessionToClient($session);
+    public function SetAuthUser(array $user): ?array {
+        $user['banned'] = ($user['banned'] == 0 ? false: true);
+        if (!$user['banned']) {
+            $session = $this->CreateSessionId();
+            $this->AddSessionToDatabase($session, $user);
+            $this->AddSessionToClient($session);
+        } else {
+            $user = null;
+        }
         return $user;
     }
 

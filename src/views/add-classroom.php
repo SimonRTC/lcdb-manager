@@ -13,7 +13,7 @@
                             <input type="text" class="form-control" id="classroom" name="classroom" required="required"/>
                         </div>
                     </div>
-                    <div class="alert alert-warning mt-3 mb-3 col-6"><b>Note</b>: Une fois cette opération réalisée, il sera impossible de supprimer le contenu ajouter.<br /><u>Cette restriction sera supprimée lorsque l'ensemble des bugs qu'elle génère seront résolue.</u></div>
+                    <div class="alert alert-warning mt-3 mb-3 col-6"><b>Note</b>: Une fois cette opération réalisée, il sera impossible de supprimer le contenu ajouter.</div>
                     <hr class="mt-4 mb-3" />
                     <?php if (!empty($G['Pusher']->Notification)) { ?>
                         <div clas="row align-items-cente mt-4 mb-4">

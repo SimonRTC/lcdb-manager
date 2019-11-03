@@ -16,20 +16,35 @@ class Classrooms {
         $this->views        = $views;
         $this->Classroom    = $Classroom;
         $this->Students     = $Students;
-        $this->PostedDatas  = (isset($_POST) && !empty($_POST)? $_POST: false);
     }
 
-    public function index($type, $classroom, $auth, $injection) {
-        if ($type == 'POST' && $injection == 'add-classroom') {  $cb = $this->Classroom->CreateClassroom($this->PostedDatas); $this->views->SetPushMessage((!$cb? 'CREATE_CLASSROOM_ERROR': 'CREATE_CLASSROOM_SUCCESS'), (!$cb? 'error': 'success')); }
+    public function View($subsite, $method, $slug) {
         $ClientAuth = $this->views->ClientAuth;
-        if ($auth && !empty($ClientAuth) || !$auth) {
-            $classrooms = $this->Classroom->GetClassrooms((!empty($classroom)? $classroom: null));
-            $this->views->header(true);
-            $this->views->load(($injection == 'add-classroom'? 'add-classroom': 'classroom'), [ 'classrooms' => (!empty($classroom)? (!empty($classrooms[0])? $classrooms[0]: null): $classrooms), 'single' => (!empty($classroom)? true: false), 'students' => (!empty($classroom)? $this->Students->GetStudents(null, $classroom): null), 'students_number' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); } ]);
-            $this->views->footer(true);
+        if (!empty($ClientAuth)) {
+            $this->CreateView('classroom', $slug);
         } else {
             header('Location: /connexion/');
         }
+    }
+
+    public function Add($subsite, $method, $slug) {
+        $ClientAuth = $this->views->ClientAuth;
+        if (!empty($ClientAuth)) {
+            if ($method == 'POST' ) {
+                $cb = $this->Classroom->CreateClassroom($_POST);
+                $this->views->SetPushMessage((!$cb? 'CREATE_CLASSROOM_ERROR': 'CREATE_CLASSROOM_SUCCESS'), (!$cb? 'error': 'success'));
+            }
+            $this->CreateView('add-classroom', $slug);
+        } else {
+            header('Location: /connexion/');
+        }
+    }
+
+    private function CreateView(string $view, ?string $slug = null) {
+        $classrooms = $this->Classroom->GetClassrooms((!empty($slug)? $slug: null));
+        $this->views->header();
+        $this->views->load($view, [ 'classrooms' => (!empty($slug)? (!empty($classrooms[0])? $classrooms[0]: null): $classrooms), 'single' => (!empty($slug)? true: false), 'students' => (!empty($slug)? $this->Students->GetStudents(null, $slug): null), 'students_number' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); } ]);
+        $this->views->footer();
     }
 
 }

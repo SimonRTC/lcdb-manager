@@ -16,22 +16,53 @@ class Students {
         $this->views        = $views;
         $this->Classroom    = $Classroom;
         $this->Students     = $Students;
-        $this->PostedDatas  = (isset($_POST) && !empty($_POST)? $_POST: false);
-        $this->PostedFiles  = (isset($_FILES) && !empty($_FILES)? $_FILES: false);
     }
 
-    public function index($type, $student, $auth, $injection) {
-        if ($type == 'POST' && $injection == 'add-student') { (!empty($this->PostedFiles)? $this->PostedDatas['_FILES_'] = $this->PostedFiles: null); $cb = $this->Students->CreateStudent($this->PostedDatas); $this->views->SetPushMessage((!$cb? 'CREATE_STUDENT_ERROR': 'CREATE_STUDENT_SUCCES'), (!$cb? 'error': 'success')); }
-        if ($type == 'POST' && $injection != 'add-student') { (!empty($this->PostedFiles)? $this->PostedDatas['_FILES_'] = $this->PostedFiles: null); $cb = $this->Students->UpdateStudent($this->PostedDatas['identifier'], (!isset($this->PostedDatas['classroom']) && !isset($this->PostedDatas['_FILES_'])? $this->PostedDatas: null), (isset($this->PostedDatas['classroom']) && !empty($this->PostedDatas['classroom'])? $this->PostedDatas['classroom']: null), (isset($this->PostedDatas['_FILES_']) && !empty($this->PostedDatas['_FILES_'])? $this->PostedDatas['_FILES_']: null)); $this->views->SetPushMessage((!$cb? 'UPDATE_STUDENT_ERROR': 'UPDATE_STUDENT_SUCCES'), (!$cb? 'error': 'success')); }
+    public function View($subsite, $method, $slug) {
         $ClientAuth = $this->views->ClientAuth;
-        if ($auth && !empty($ClientAuth) || !$auth) {
-            $students = $this->Students->GetStudents((!empty($student)? $student: null));
-            $this->views->header(true);
-            $this->views->load(($injection == 'add-student'? 'add-student': 'student'), [ 'students' => (!empty($student)? (!empty($students[0])? $students[0]: null): $students), 'single' => (!empty($student)? true: false), 'classroom' => function($classroom = null) { return $this->Classroom->GetClassrooms($classroom); } , 'options' => $this->Students->GetOptions(), 'diets' => $this->Students->GetDiets(), 'injection' => $injection, 'students_number' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); } ]);
-            $this->views->footer(true);
+        if (!empty($ClientAuth)) {
+            if ($method == 'POST') {
+                $cb = $this->Students->UpdateStudent($_POST['identifier'], null, (isset($_POST['classroom']) && !empty($_POST['classroom'])? $_POST['classroom']: null), null);
+                $this->views->SetPushMessage((!$cb? 'UPDATE_STUDENT_ERROR': 'UPDATE_STUDENT_SUCCES'), (!$cb? 'error': 'success'));
+            }
+            $this->CreateView('student', $slug);
         } else {
             header('Location: /connexion/');
         }
+    }
+
+    public function Edit($subsite, $method, $slug) {
+        $ClientAuth = $this->views->ClientAuth;
+        if (!empty($ClientAuth)) {
+            if ($method == 'POST') {
+                $cb = $this->Students->UpdateStudent($_POST['identifier'], $_POST, (isset($_POST['classroom']) && !empty($_POST['classroom'])? $_POST['classroom']: null), (isset($_FILES) && !empty($_FILES)? $_FILES: null));
+                $this->views->SetPushMessage((!$cb? 'UPDATE_STUDENT_ERROR': 'UPDATE_STUDENT_SUCCES'), (!$cb? 'error': 'success'));
+                header('Location: /etudiants/'. $_POST['identifier']);
+            }
+            $this->CreateView('student', $slug, true);
+        } else {
+            header('Location: /connexion/');
+        }
+    }
+
+    public function Add($subsite, $method, $slug) {
+        $ClientAuth = $this->views->ClientAuth;
+        if (!empty($ClientAuth)) {
+            if ($method == 'POST') {
+                $cb = $this->Students->CreateStudent($_POST, (!empty($_FILES)? $_FILES: null));
+                $this->views->SetPushMessage((!$cb? 'CREATE_STUDENT_ERROR': 'CREATE_STUDENT_SUCCES'), (!$cb? 'error': 'success'));
+            }
+            $this->CreateView('add-student', $slug, true);
+        } else {
+            header('Location: /connexion/');
+        }
+    }
+
+    private function CreateView(string $view, ?string $slug = null, $editmode = false) {
+        $students = $this->Students->GetStudents((!empty($slug)? $slug: null));
+        $this->views->header();
+        $this->views->load($view, [ 'students' => (!empty($slug)? (!empty($students[0])? $students[0]: null): $students), 'single' => (!empty($slug)? true: false), 'options' => $this->Students->GetOptions(), 'diets' => $this->Students->GetDiets(), 'classroom' => function($classroom = null) { return $this->Classroom->GetClassrooms($classroom); }, 'students_number' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); }, 'editmode' => $editmode ]);
+        $this->views->footer();
     }
 
 }

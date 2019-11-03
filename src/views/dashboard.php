@@ -67,7 +67,7 @@
                             </div>
                             <div class="mr-5">~ GitHub Issues ~</div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="https://github.com/SimonOriginal/lcdb-manager/issues/" target="_BLANK">
+                        <a class="card-footer text-white clearfix small z-1" href="https://github.com/SimonRTC/lcdb-manager/issues/" target="_BLANK">
                             <span class="float-left">Créer un nouveau ticket</span>
                             <span class="float-right">
                             <i class="fas fa-angle-right"></i>
