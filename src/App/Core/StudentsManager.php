@@ -91,9 +91,9 @@ class StudentsManager {
         return (!$student? 0: $student);
     }
 
-    public function CreateStudent(array $student): bool {
+    public function CreateStudent(array $student, ?array $picture = null): bool {
         $name       = htmlspecialchars((!empty($student['firstname'])? $student['firstname']: null)) . ' ' . htmlspecialchars((!empty($student['lastname'])? $student['lastname']: null));
-        $picture    = (!empty($student['_FILES_'])? $this->GetBase64Image($student['_FILES_']): null);
+        $picture    = (!empty($picture)? $this->GetBase64Image($picture): null);
         $diet       = (!empty($student['diet'])? htmlspecialchars($student['diet']): null);
         $options    = [];
         foreach ($this->GetOptions() as $option) { foreach ($student as $k=>$posted) { if ($k == $option['id']) { array_push($options, [ 'id' => $k, 'active' => ($posted == "true"?  true: false) ]); break; } } }

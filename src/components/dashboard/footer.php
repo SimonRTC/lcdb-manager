@@ -2,7 +2,7 @@
                 <footer class="sticky-footer">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>&copy; GNU General Public License v3.0 - <a href="https://github.com/SimonOriginal/lcdb-manager/blob/master/LICENSE" target="_BLANK">lcdb-manager</a> - Lycée Collège de Bretagne</span>
+                            <span>&copy; GNU General Public License v3.0 - <a href="https://github.com/SimonRTC/lcdb-manager/blob/master/LICENCE" target="_BLANK">lcdb-manager</a> - Lycée Collège de Bretagne</span>
                         </div>
                     </div>
                 </footer>

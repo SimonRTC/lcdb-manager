@@ -1,0 +1,97 @@
+---
+  
+- host: false
+  type: GET|POST
+  pattern: "/"
+  controller: Dashboard::index
+  
+- host: false
+  type: GET|POST
+  pattern: "/connexion"
+  controller: Auth::signin
+  
+- host: false
+  type: GET
+  pattern: "/deconnexion"
+  controller: Auth::SessionLogout
+  
+- host: false
+  type: GET|POST
+  pattern: "/classes"
+  controller: Classrooms::View
+  auth: true
+  
+- host: false
+  type: GET|POST
+  pattern: "/classes/(\\w+)"
+  controller: Classrooms::View
+  auth: true
+  
+- host: false
+  type: GET|POST
+  pattern: "/classes/(\\w+)/editer"
+  controller: Classrooms::View
+  auth: true
+  injection: edit-mode
+  
+- host: false
+  type: GET|POST
+  pattern: "/ajouter-classes"
+  controller: Classrooms::Add
+  auth: true
+  
+- host: false
+  type: GET|POST
+  pattern: "/etudiants"
+  controller: Students::View
+  auth: true
+  
+- host: false
+  type: GET|POST
+  pattern: "/etudiants/(\\w+)"
+  controller: Students::View
+  auth: true
+  
+- host: false
+  type: GET|POST
+  pattern: "/etudiants/(\\w+)/editer"
+  controller: Students::Edit
+  auth: true
+  
+- host: false
+  type: GET|POST
+  pattern: "/ajouter-etudiant"
+  controller: Students::Add
+  auth: true
+  injection: add-student
+  
+- host: false
+  type: GET|POST
+  pattern: "/ajouter-option"
+  controller: Options::AddOpts
+  auth: true
+  
+- host: false
+  type: GET
+  pattern: "/ajouter-option/(.*)"
+  controller: Options::DeleteOpts
+  auth: true
+  
+- host: false
+  type: GET|POST
+  pattern: "/ajouter-regime-alimentaire"
+  controller: Options::AddDiet
+  auth: true
+  injection: add-diet
+  
+- host: false
+  type: GET|POST
+  pattern: "/trombinoscope"
+  controller: BoardStudents::index
+  auth: true
+  
+- host: false
+  type: GET|POST
+  pattern: "/trombinoscope/(\\w+)"
+  controller: BoardStudents::index
+  auth: true

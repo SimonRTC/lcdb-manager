@@ -16,21 +16,43 @@ class Options {
         $this->views        = $views;
         $this->Options      = $Options;
         $this->Students     = $Students;
-        $this->PostedDatas  = (isset($_POST) && !empty($_POST)? $_POST: false);
     }
 
-    public function index($type, $slug, $auth, $injection) {
-        if ($injection == 'remove-option') { $this->Options->RemoveOption($slug); header('Location: /ajouter-option/'); }
-        if ($type == 'POST' && $injection == 'add-option') { $cb = $this->Options->CreateOption($this->PostedDatas); $this->views->SetPushMessage((!$cb? 'CREATE_OPTION_ERROR': 'CREATE_OPTION_SUCCESS'), (!$cb? 'error': 'success')); }
-        if ($type == 'POST' && $injection == 'add-diet') { $cb = $this->Options->CreateDiet($this->PostedDatas); $this->views->SetPushMessage((!$cb? 'CREATE_DIET_ERROR': 'CREATE_DIET_SUCCESS'), (!$cb? 'error': 'success')); }
+    public function AddDiet($subsite, $method, $slug) {
         $ClientAuth = $this->views->ClientAuth;
-        if ($auth && !empty($ClientAuth) || !$auth) {
-            $this->views->header(true);
-            $this->views->load($injection, [ 'options' => function() { return $this->Students->GetOptions(); } , 'diets' => function() { return $this->Students->GetDiets(); } ]);
-            $this->views->footer(true);
+        if (!empty($ClientAuth)) {
+            if ($method == 'POST') {
+                $cb = $this->Options->CreateDiet($_POST);
+                $this->views->SetPushMessage((!$cb? 'CREATE_DIET_ERROR': 'CREATE_DIET_SUCCESS'), (!$cb? 'error': 'success'));
+            }
+            $this->CreateView('add-diet');
         } else {
             header('Location: /connexion/');
         }
+    }
+
+    public function AddOpts($subsite, $method, $slug) {
+        $ClientAuth = $this->views->ClientAuth;
+        if (!empty($ClientAuth)) {
+            if ($method == 'POST') {
+                $cb = $this->Options->CreateOption($_POST);
+                $this->views->SetPushMessage((!$cb? 'CREATE_OPTION_ERROR': 'CREATE_OPTION_SUCCESS'), (!$cb? 'error': 'success'));
+            }
+            $this->CreateView('add-option');
+        } else {
+            header('Location: /connexion/');
+        }
+    }
+    
+    public function DeleteOpts($subsite, $method, $slug) {
+        $this->Options->RemoveOption($slug);
+        header('Location: /ajouter-option/');
+    }
+
+    private function CreateView(string $view) {
+        $this->views->header();
+        $this->views->load($view, [ 'options' => function() { return $this->Students->GetOptions(); } , 'diets' => function() { return $this->Students->GetDiets(); } ]);
+        $this->views->footer();
     }
 
 }

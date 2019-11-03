@@ -27,15 +27,19 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="<?= (!empty($G['auth'])? '#': '/connexion/') ?>" id="userDropdown" <?= (!empty($G['auth'])? 'role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"': null) ?>>
                         <i class="fas fa-user-circle fa-fw"></i>
                     </a>
+                    <?php if (!empty($G['auth'])) { ?>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#">Réglages <span class="badge badge-warning">INDISPONIBLE</span></a>
-                    <a class="dropdown-item" href="#">Journal d'activité <span class="badge badge-warning">INDISPONIBLE</span></a>
-                    <div class="dropdown-divider"></div>
+                        <!--
+                        <a class="dropdown-item" href="#">Réglages</a>
+                        <a class="dropdown-item" href="#">Journal d'activité</a>
+                        <div class="dropdown-divider"></div>
+                        -->
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Déconnexion</a>
                     </div>
+                    <?php } ?>
                 </li>
             </ul>
 

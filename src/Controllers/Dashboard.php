@@ -18,10 +18,11 @@ class Dashboard {
     }
 
     public function index() {
-        $dashboard = (!empty($this->views->GetAuth()? true: false));
-        $this->views->header($dashboard);
-        $this->views->load(($dashboard? 'dashboard': 'welcome'), (!$dashboard? [ 'licence' => $this->GetLicence() ]: [ 'students' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); }, 'classrooms' => function($classroom = null) { return $this->Classroom->GetClassroomsNumber($classroom); } ]));
-        $this->views->footer($dashboard);
+        $IsDashboard = (!empty($this->views->ClientAuth? true: false));
+        (!$IsDashboard? $this->views->SetSubsite(null): null);
+        $this->views->header();
+        $this->views->load(($IsDashboard? 'dashboard': 'welcome'), (!$IsDashboard? [ 'licence' => $this->GetLicence() ]: [ 'students' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); }, 'classrooms' => function($classroom = null) { return $this->Classroom->GetClassroomsNumber($classroom); } ]));
+        $this->views->footer();
     }
 
     private function GetLicence(): string {

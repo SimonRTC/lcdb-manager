@@ -17,11 +17,11 @@ class BoardStudents {
         $this->Students     = $Students;
     }
 
-    public function index($type, $classroom, $auth, $injection) {
+    public function index($subsite, $method, $slug) {
         $ClientAuth = $this->views->ClientAuth;
-        if ($auth && !empty($ClientAuth) || !$auth) {
+        if (!empty($ClientAuth)) {
             $this->views->header(true);
-            $this->views->load('board-students', [ 'classrooms' => $this->Classroom->GetClassrooms($classroom), 'students' => function($classroom = null) { return $this->Students->GetStudents(null, $classroom); }, 'single' => (!empty($classroom)? true: false), 'students_number' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); }, 'option' => $this->Students->GetOptions(), 'diets' => function($diet = null) { return $this->Students->GetDiets($diet); } ]);
+            $this->views->load('board-students', [ 'classrooms' => $this->Classroom->GetClassrooms($slug), 'students' => function($classroom = null) { return $this->Students->GetStudents(null, $classroom); }, 'single' => (!empty($slug)? true: false), 'students_number' => function($classroom = null) { return $this->Students->GetStudentsNumber($classroom); }, 'option' => $this->Students->GetOptions(), 'diets' => function($diet = null) { return $this->Students->GetDiets($diet); } ]);
             $this->views->footer(true);
         } else {
             header('Location: /connexion/');

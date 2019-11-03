@@ -8,9 +8,11 @@ class views {
     private $PushMessage;
     private $Auth;
     public $ClientAuth;
+    public $Subsite;
 
     public function __construct(\App\Pusher $Pusher, \App\Core\Auth $Auth) {
         $this->path         = realpath(__DIR__ . '/../..').'/';
+        $this->Subsite      = 'dashboard';
         $this->Auth         = $Auth;
         $this->Pusher       = $Pusher;
         $this->ClientAuth   = $this->CheckAuth();
@@ -23,40 +25,34 @@ class views {
         }
     }
 
-    public function SetPushMessage(string $code, string $type = 'danger') {
-        $this->Pusher->SetNotification($code, $type);
+    public function SetPushMessage(string $code) {
+        $this->Pusher->SetNotification($code);
         return null;
     }
 
-    public function ParseUrl(): array {
-        $URL    = explode('/', $_SERVER['REQUEST_URI']);
-        $R_URL  = [];
-        foreach ($URL as $URI) {
-            if (!empty($URI)) {
-                array_push($R_URL, $URI);
-            }
-        }
-        return $R_URL;
+    public function SetSubsite($subsite): bool {
+        $this->Subsite = $subsite;
+        return true;
     }
 
-    public function GetAuth(): array {
-        return (!empty($this->ClientAuth) ? $this->ClientAuth: []);
+    public function load(string $view, array $data = null) {
+        $data       = (!empty($data)? $data: false);
+        $G          = $this->LoadDefaultVariables();
+        $opened     = $this->path . 'components'. (!empty($this->Subsite)? '/' . $this->Subsite: null) .'/pusher.php';
+        if (file_exists($opened)) { ($G['Pusher']->IsNotificationInStandBy()? require $opened: null); }
+        $opened2    = $this->path . 'views/' . $view . '.php';
+        if (file_exists($opened2)) { require $opened2; return true; }
+        return false;
     }
 
-    public function load(string $view, array $injections = []) {
-        $G      = $this->LoadDefaultVariables();
-        $data   = $injections;
-        require $this->path . 'views/' . $view . '.php';
-    }
-
-    public function header(bool $dashboard = false) {
+    public function header() {
         $G  = $this->LoadDefaultVariables();
-        require $this->path . 'components/' . (!$dashboard ? 'header': 'dashboard/header') . '.php';
+        require $this->path . 'components'. (!empty($this->Subsite)? '/' . $this->Subsite: null) .'/header.php';
     }
 
-    public function footer(bool $dashboard = false) {
+    public function footer() {
         $G  = $this->LoadDefaultVariables();
-        require $this->path . 'components/' . (!$dashboard ? 'footer': 'dashboard/footer') . '.php';
+        require $this->path . 'components'. (!empty($this->Subsite)? '/' . $this->Subsite: null) .'/footer.php';
     }
 
     private function LoadDefaultVariables() {
