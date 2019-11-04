@@ -1,15 +1,7 @@
 
         <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
             <div class="col-md-8 px-0">
-                <h1 class="display-4 font-italic">Du nouveau?</h1>
-                <p class="ml-2">Mise à jours du 03/11/2019 à 19h23</p>
-                <p class="lead my-3">
-                    <ul>
-                    <li>Intégration du framework <b>MVC</b> <code>php-framework-mvc</code> <small>( v.1.0.1 <a href="https://github.com/SimonRTC/php-framework-mvc" target="_blank">GitHub</a> )</small>.</li>
-                        <li>Refactoring de l'ensemble des services</li>
-                        <li>Sécurisation des requêtes <code>POST</code> sur le manager.</li>
-                    </ul>
-                </p>
+               <?= $data['GetChangelogs'] ?>
             </div>
         </div>
         <main role="main" class="container">
