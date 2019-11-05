@@ -38,21 +38,22 @@
                         <div id="ready-for-print">
 
                             <div class="row">
-                            
+
+                                <?php foreach ($students as $i=>$student) { $students[$i]['name'] = $student['profile']['firstname'] . ' ' . $student['profile']['lastname']; } usort($students, function ($item1, $item2) { return $item1['name'] <=> $item2['name']; }); ?>
                                 <?php foreach ($students as $student) { ?>
                                     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-2">
                                         <div class="board-card tile">
                                             <div class="wrapper">
-                                                <div class="board-card header"><?= $student['profile']['firstname'] ?> <?= $student['profile']['lastname'] ?><br /><small><?= $data['diets']($student['profile']['diet'])[0]['name'] ?></small></div>
+                                                <div class="board-card header"><?= $student['name'] ?><br /><small><?= $data['diets']($student['profile']['diet'])[0]['name'] ?></small></div>
 
                                                 <div class="board-card banner-img mb-3">
-                                                    <img src="<?= (!empty($student['picture'])? $student['picture']: 'http://exeter.madeopen.co.uk/img/profile-pic.svg') ?>" alt="Image 1">
+                                                    <img src="<?= (!empty($student['picture'])? $student['picture']: '/assets/img/profile-pic.svg') ?>" alt="Image 1">
                                                 </div>
 
                                                 <div class="board-card options row">
                                                     <?php foreach ($data['option'] as $option) { if ($option['display']) { if (!empty($student['profile']['options'])) { foreach ($student['profile']['options'] as $my) { if ($option['id'] == $my['id'] && $my['active']) { ?>
                                                         <div class="col-10"><strong><?= $option['name'] ?></strong></div>
-                                                        <div class="col-2"><i class="far fa-check-square"></i></div>
+                                                        <div class="col-2"><i class="far fa-check-square"></i></div><hr />
                                                     <?php } } } else { echo '<div class="col-10"><span class="badge badge-warning">Aucune option</span></div>'; break; } } } ?>
                                                 </div>
 
