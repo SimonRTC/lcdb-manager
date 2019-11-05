@@ -146,7 +146,7 @@
                                                     <?php } ?>
                                                 <?php } } } ?>
                                                 <?php } else { ?>
-                                                    <?php foreach ($data['options'] as $option) { ?>
+                                                    <?php foreach ($data['options'] as $option) { if ($option['display']) { ?>
                                                         <div class="col-8">
                                                             <ul>
                                                                 <li><?= $option['name'] ?></li>
@@ -154,7 +154,7 @@
                                                             </ul>
                                                             <hr />
                                                         </div>
-                                                    <?php } ?>
+                                                    <?php } } ?>
                                                 <?php } ?>
                                             </div>
                                             <div class="col-6">
