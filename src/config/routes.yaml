@@ -95,3 +95,10 @@
   pattern: "/trombinoscope/(\\w+)"
   controller: BoardStudents::index
   auth: true
+
+
+- host: false
+  type: GET|POST
+  pattern: "/administrateur"
+  controller: Admin::dashboard
+  auth: true
