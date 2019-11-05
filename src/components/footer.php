@@ -1,4 +1,4 @@
-
+    <hr class="mt-5 mb-5" />
     <footer class="blog-footer">
         <p>&copy; GNU General Public License v3.0 - <a href="https://github.com/SimonRTC/lcdb-manager/blob/master/LICENCE" target="_BLANK">lcdb-manager</a> - Lycée Collège de Bretagne</p>
     </footer>

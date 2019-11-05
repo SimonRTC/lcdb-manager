@@ -47,4 +47,3 @@
                 </aside>
             </div>
         </main>
-        <hr class="mt-5 mb-5" />
