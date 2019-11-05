@@ -1,0 +1,53 @@
+.board-card.tile{
+	width: 14.5rem;
+	background:#fff;
+	border-radius:5px;
+	box-shadow:0px 2px 3px -1px rgba(151, 171, 187, 0.7);
+	float:left;
+  	transform-style: preserve-3d;
+  	margin: 5px 5px;
+
+}
+
+.board-card.header{
+	padding:19px 0;
+	text-align:center;
+	color:#59687f;
+	font-size:600;
+	font-size:19px;	
+	position:relative;
+}
+
+.board-card.banner-img {
+	padding: 5px 5px 0;
+}
+
+.board-card.banner-img img {
+    width: 45%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.board-card.options{
+	border:1px solid #ebeff2;
+	border-radius:5px;
+	padding:10px 5px;
+	margin:10px 20px;
+	font-size:16px;
+	color:#5aadef;
+	font-weight:600;	
+	overflow:auto;
+}
+.board-card.options div{
+	float:left;
+	width:50%;
+	text-align:left;
+	position:relative;
+}
+.board-card.options strong {
+	display:block;
+	color:#adb8c2;
+	font-size:11px;
+	font-weight:700;
+}

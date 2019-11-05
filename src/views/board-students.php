@@ -36,21 +36,32 @@
                     <?php if (!empty($students)) { ?>
                         <button onclick="PrintTrombinoscope()" class="btn btn-success btn-sm mb-4">Lancer l'impression</button>
                         <div id="ready-for-print">
-                            <div class="row mt-5 mb-5 ml-5 mr-5">
+
+                            <div class="row">
+                            
                                 <?php foreach ($students as $student) { ?>
-                                    <?= (isset($BreakLine) && $BreakLine? '</div><div class="row">': null) ?>
-                                    <div class="col-5 mt-5 ml-4 mr-4">
-                                        <img width="95" class="img-thumbnail mt-2 mb-2" src="<?= $student['picture'] ?>" />
-                                        <p><?= $student['profile']['firstname'] ?> <?= $student['profile']['lastname'] ?><br /><?= $data['diets']($student['profile']['diet'])[0]['name'] ?></p>
-                                        <hr />
-                                        <p>
-                                            <?php foreach ($data['option'] as $option) { if ($option['display']) { if (!empty($student['profile']['options'])) { foreach ($student['profile']['options'] as $my) { if ($option['id'] == $my['id'] && $my['active']) { ?>
-                                                - <?= $option['name'] ?><br />
-                                            <?php  } } } else { echo '<span class="badge badge-secondary">Aucune options</span>'; break; } } } ?>    
-                                        </p>           
+                                    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-2">
+                                        <div class="board-card tile">
+                                            <div class="wrapper">
+                                                <div class="board-card header"><?= $student['profile']['firstname'] ?> <?= $student['profile']['lastname'] ?><br /><small><?= $data['diets']($student['profile']['diet'])[0]['name'] ?></small></div>
+
+                                                <div class="board-card banner-img mb-3">
+                                                    <img src="<?= (!empty($student['picture'])? $student['picture']: 'http://exeter.madeopen.co.uk/img/profile-pic.svg') ?>" alt="Image 1">
+                                                </div>
+
+                                                <div class="board-card options row">
+                                                    <?php foreach ($data['option'] as $option) { if ($option['display']) { if (!empty($student['profile']['options'])) { foreach ($student['profile']['options'] as $my) { if ($option['id'] == $my['id'] && $my['active']) { ?>
+                                                        <div class="col-10"><strong><?= $option['name'] ?></strong></div>
+                                                        <div class="col-2"><i class="far fa-check-square"></i></div>
+                                                    <?php } } } else { echo '<div class="col-10"><span class="badge badge-warning">Aucune option</span></div>'; break; } } } ?>
+                                                </div>
+
+                                            </div>
+                                        </div> 
                                     </div>
                                 <?php } ?>
                             </div>
+
                         </div>
                     <?php } else { ?>
                         <div class="alert alert-danger">Aucun élève n'est présent actuellement dans cette classe.</div>
@@ -64,21 +75,22 @@
 <script>
 
     function PrintTrombinoscope() {
-        var Trombinoscope     = window.open('', 'new div', 'height=400,width=600');
+        var Trombinoscope     = window.open('', 'new div', 'height=1654,width=2339');
         var div_content       = document.getElementById('ready-for-print');
         div_content           = div_content.innerHTML
         Trombinoscope.document.write('<html><head><title>Trombinoscope - <?= $classroom['name'] ?></title>');
+        Trombinoscope.document.write('<link rel="stylesheet" href="/assets/vendor/fontawesome-free/css/all.min.css" type="text/css" />');
         Trombinoscope.document.write('<link rel="stylesheet" href="/assets/vendor/datatables/dataTables.bootstrap4.css" type="text/css" />');
         Trombinoscope.document.write('<link rel="stylesheet" href="/assets/css/sb-admin.css" type="text/css" />');
-        Trombinoscope.document.write('</head><body>');
-        Trombinoscope.document.write('<style>.row { display: flex; }.row > div { flex: 0.20; background: #E5E5E5; border: 1px solid #CCCCCC; } </style>');
-        Trombinoscope.document.write('</head><body>');
+        Trombinoscope.document.write('<link rel="stylesheet" href="/assets/css/board.css" type="text/css" />');
+        Trombinoscope.document.write('<style media="print">@page { size: auto; margin: 0; }</style>');
+        Trombinoscope.document.write('</head><body><div id="content-wrapper"><div class="container-fluid">');
         Trombinoscope.document.write(div_content);
         Trombinoscope.document.write('</div></div></body></html>');
         Trombinoscope.document.close();
         Trombinoscope.focus();
-        setTimeout(function(){ Trombinoscope.print(); },1000);
-        // Trombinoscope.close();
+        setTimeout(function(){ Trombinoscope.print(); }, 500);
+        Trombinoscope.onafterprint = function () { setTimeout(function () { Trombinoscope.close(); }, 500); }
         return true;
     }
 

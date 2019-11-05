@@ -8,6 +8,7 @@
         <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="/assets/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
         <link href="/assets/css/sb-admin.css" rel="stylesheet">
+        <link href="/assets/css/board.css" rel="stylesheet">
     </head>
     <body id="page-top">
 
